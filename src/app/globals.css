@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #333333;
+}
+
+@theme inline {
+  /* Brand colors */
+  --color-navy: #1f3a93;
+  --color-coral: #ff7f50;
+  --color-gray-light: #d3d3d3;
+  --color-dark: #333333;
+  --color-surface: #f7f7f7;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Typography — Inter is loaded in layout.tsx */
+  --font-sans: var(--font-inter);
+
+  /* Layout — matches Figma desktop canvas width */
+  --breakpoint-desktop: 1280px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
