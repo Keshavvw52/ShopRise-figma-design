@@ -7,6 +7,6 @@ export const products: Product[] = Array.from({ length: 36 }, (_, i) => ({
   currency: "USD",
   condition: "Used",
   location: "Los Angeles.CA",
-  imageUrl: "/images/products/placeholder.jpg",
+  imageUrl: "/images/products/liter-trolley-sprayer.png",
   isFavourite: false,
 }));

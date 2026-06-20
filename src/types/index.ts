@@ -1,7 +1,6 @@
-/** Item condition labels shown on product cards (matches Figma e.g. "(Used)") */
 export type ProductCondition = "New" | "Used" | "Like New" | "Refurbished";
 
-/** A single marketplace listing — the core data shape for ProductCard and listing pages */
+
 export interface Product {
   id: string;
   title: string;
@@ -13,7 +12,6 @@ export interface Product {
   isFavourite?: boolean;
 }
 
-/** Formats a price for display, e.g. 9.99 → "$9.99" */
 export function formatPrice(price: number, currency = "USD"): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -22,7 +20,6 @@ export function formatPrice(price: number, currency = "USD"): string {
   }).format(price);
 }
 
-/** Wraps condition in parentheses to match Figma, e.g. "Used" → "(Used)" */
 export function formatCondition(condition: ProductCondition): string {
   return `(${condition})`;
 }
