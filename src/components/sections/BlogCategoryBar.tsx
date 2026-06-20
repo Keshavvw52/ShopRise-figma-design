@@ -12,9 +12,8 @@ export function BlogCategoryBar() {
         const isActive = category.id === "all";
 
         return (
-          <button
+          <span
             key={category.id}
-            type="button"
             className={cn(
               isActive
                 ? "rounded-[10px] bg-navy px-2.5 py-[5px] text-sm font-medium text-white"
@@ -22,7 +21,7 @@ export function BlogCategoryBar() {
             )}
           >
             {category.label}
-          </button>
+          </span>
         );
       })}
     </nav>
