@@ -4,7 +4,7 @@ import { categories } from "@/data/categories";
 export function CategoryFilterBar() {
   return (
     <section
-      className="mb-6 flex items-center gap-5 overflow-x-auto pr-[25px]"
+      className="mb-6 flex w-full items-center gap-5"
       aria-label="Active category filters"
     >
       <div className="flex items-center gap-2.5">
@@ -19,7 +19,7 @@ export function CategoryFilterBar() {
 
       <button
         type="button"
-        className="shrink-0 text-base font-semibold text-coral"
+        className="ml-auto shrink-0 text-base font-semibold text-coral"
       >
         Clear all categorie
       </button>

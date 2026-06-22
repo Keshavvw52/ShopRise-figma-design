@@ -1,12 +1,15 @@
 import { CategoryFilterBar } from "@/components/sections/CategoryFilterBar";
 import { ProductGrid } from "@/components/sections/ProductGrid";
+import { Pagination } from "@/components/ui/Pagination";
 import { products } from "@/data/products";
 
-export default function Home() {
+/** Shared listings grid — Figma Home / All listing */
+export function ListingsContent() {
   return (
-    <main className="mx-auto w-full max-w-[1280px] flex-1 px-[25px] pb-8">
+    <>
       <CategoryFilterBar />
       <ProductGrid products={products} />
-    </main>
+      <Pagination />
+    </>
   );
 }

@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
+  isLoggedInNavbarPath,
   isNavLinkActive,
   isSimpleNavbarPath,
   primaryNavLinks,
 } from "@/config/navigation";
 import { Button } from "@/components/ui/Button";
+import { CategoriesDropdown } from "@/components/ui/CategoriesDropdown";
 import { NavLink } from "@/components/ui/NavLink";
 import { SearchBar } from "@/components/ui/SearchBar";
 
@@ -20,14 +22,26 @@ const secondaryNav = [
   "More",
 ] as const;
 
+const marketplacePaths = ["/", "/listings", "/home-after-connect"] as const;
+
+/** Marketplace navbar — Figma Home / Home after connect (static, route-based variants). */
 export function Navbar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isSimple = isSimpleNavbarPath(pathname);
+  const isLoggedIn = isLoggedInNavbarPath(pathname);
+  const isMarketplace = (marketplacePaths as readonly string[]).includes(
+    pathname,
+  );
+  const categoriesOpen =
+    isMarketplace && searchParams.get("categories") === "open";
+  const categoriesHref = categoriesOpen
+    ? pathname
+    : `${pathname}?categories=open`;
 
   return (
     <header className="w-full bg-white">
       <div className="mx-auto w-full max-w-[1280px] px-[25px] pt-[17px]">
-        {/* Row 1 — Nav bar */}
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <span
@@ -52,50 +66,71 @@ export function Navbar() {
             ))}
           </nav>
 
-          <Link href="/login">
-            <Button variant="primary" type="button">
-              Sign In
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4">
+                <Link href="/dashboard/chat" aria-label="Messages">
+                  <Image
+                    src="/icons/mail-outline.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    aria-hidden
+                  />
+                </Link>
+                <Image
+                  src="/icons/alert.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  aria-hidden
+                />
+              </div>
+              <Link href="/dashboard" className="flex items-center gap-2">
+                <span className="text-base font-normal text-dark">John DOE</span>
+                <span className="h-8 w-8 rounded-full border border-coral bg-gray-light" />
+              </Link>
+            </div>
+          ) : (
+            <Link href="/login">
+              <Button variant="primary" type="button">
+                Sign In
+              </Button>
+            </Link>
+          )}
         </div>
 
         {!isSimple && (
           <>
-            {/* Row 2 — Categories + search */}
             <div className="mt-[26px] flex flex-col items-center gap-[9px]">
-              <div
-                className="h-px w-full bg-gray-light"
-                role="presentation"
-                aria-hidden
-              />
+              <div className="h-px w-full bg-gray-light" aria-hidden />
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-[15px]">
-                  <button
-                    type="button"
-                    className="flex items-center gap-[5px] text-base font-medium text-dark"
-                  >
-                    <Image
-                      src="/icons/list-bold.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      aria-hidden
-                    />
-                    Categories
-                    <Image
-                      src="/icons/chevron-bottom.svg"
-                      alt=""
-                      width={10}
-                      height={10}
-                      aria-hidden
-                    />
-                  </button>
+                  <div className="relative">
+                    <Link
+                      href={isMarketplace ? categoriesHref : "/listings?categories=open"}
+                      className="flex items-center gap-[5px] text-base font-medium text-dark"
+                    >
+                      <Image
+                        src="/icons/list-bold.svg"
+                        alt=""
+                        width={20}
+                        height={20}
+                        aria-hidden
+                      />
+                      Categories
+                      <Image
+                        src="/icons/chevron-bottom.svg"
+                        alt=""
+                        width={10}
+                        height={10}
+                        aria-hidden
+                      />
+                    </Link>
+                    {categoriesOpen && <CategoriesDropdown />}
+                  </div>
 
-                  <span
-                    className="h-[25px] w-px bg-dark"
-                    role="presentation"
-                    aria-hidden
-                  />
+                  <span className="h-[25px] w-px bg-dark" aria-hidden />
 
                   <nav
                     className="flex items-center gap-[15px]"
@@ -103,12 +138,9 @@ export function Navbar() {
                   >
                     {secondaryNav.map((item) => (
                       <span key={item} className="flex items-center gap-0.5">
-                        <button
-                          type="button"
-                          className="text-base font-normal text-dark"
-                        >
+                        <span className="text-base font-normal text-dark">
                           {item}
-                        </button>
+                        </span>
                         {item === "More" && (
                           <Image
                             src="/icons/chevron-bottom.svg"
@@ -125,14 +157,9 @@ export function Navbar() {
 
                 <SearchBar />
               </div>
-              <div
-                className="h-px w-full bg-gray-light"
-                role="presentation"
-                aria-hidden
-              />
+              <div className="h-px w-full bg-gray-light" aria-hidden />
             </div>
 
-            {/* Row 3 — Sort by + location */}
             <div className="mt-[26px] flex items-center justify-between pb-4">
               <div className="flex items-center gap-2.5">
                 <span className="text-base font-medium text-dark">Sort by:</span>
@@ -152,10 +179,7 @@ export function Navbar() {
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="flex items-center gap-[3px] text-lg text-navy"
-              >
+              <span className="flex items-center gap-[3px] text-lg text-navy">
                 <Image
                   src="/icons/location.svg"
                   alt=""
@@ -173,7 +197,7 @@ export function Navbar() {
                   height={10}
                   aria-hidden
                 />
-              </button>
+              </span>
             </div>
           </>
         )}

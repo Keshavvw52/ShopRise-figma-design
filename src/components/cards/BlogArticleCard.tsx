@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { BlogArticle } from "@/data/blog";
+import { getArticleBySlug } from "@/data/blog";
 
 function ArticleMeta({
   date,
@@ -26,6 +28,7 @@ function ArticleMeta({
  * 347×511 card: image, category, title, excerpt, author row.
  */
 export function BlogArticleCard({
+  slug,
   title,
   category,
   excerpt,
@@ -35,7 +38,9 @@ export function BlogArticleCard({
   date,
   readTime,
 }: BlogArticle) {
-  return (
+  const hasArticlePage = Boolean(getArticleBySlug(slug));
+
+  const card = (
     <article className="flex w-[347px] max-w-full flex-col">
       <div className="relative h-[244px] w-full overflow-hidden rounded-[5px] shadow-[0_1px_5px_rgba(0,0,0,0.25)]">
         <Image
@@ -71,6 +76,16 @@ export function BlogArticleCard({
         </div>
       </div>
     </article>
+  );
+
+  if (!hasArticlePage) {
+    return card;
+  }
+
+  return (
+    <Link href={`/blog/${slug}`} className="block">
+      {card}
+    </Link>
   );
 }
 
