@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 
@@ -8,7 +9,9 @@ export default function MainLayout({
 }>) {
   return (
     <div className="flex min-h-full flex-col">
-      <Navbar />
+      <Suspense fallback={<header className="h-[200px] w-full bg-white" />}>
+        <Navbar />
+      </Suspense>
       <div className="flex flex-1 flex-col">{children}</div>
       <Footer />
     </div>

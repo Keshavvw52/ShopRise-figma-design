@@ -9,6 +9,7 @@ export interface AboutStat {
   id: string;
   value: string;
   label: string;
+  iconSrc: string;
 }
 
 export interface Testimonial {
@@ -16,6 +17,7 @@ export interface Testimonial {
   name: string;
   role: string;
   quote: string;
+  avatarSrc: string;
 }
 
 /** Static About page copy — exact Figma text from About us frame */
@@ -84,9 +86,19 @@ export const howItWorksText = `ShopRise: The premier local marketplace where sim
   5. Be part of a thriving community! Join millions of discerning individuals on the paramount mobile platform dedicated to local commerce. Where buyers meet sellers, and community connections are forged.`;
 
 export const aboutStats: AboutStat[] = [
-  { id: "1", value: "5000+", label: "Ads" },
-  { id: "2", value: "3264+", label: "Happy Customers" },
-  { id: "3", value: "2001+", label: "Verified Users" },
+  { id: "1", value: "5000+", label: "Ads", iconSrc: "/icons/stats/bag.svg" },
+  {
+    id: "2",
+    value: "3264+",
+    label: "Happy Customers",
+    iconSrc: "/icons/stats/happy.svg",
+  },
+  {
+    id: "3",
+    value: "2001+",
+    label: "Verified Users",
+    iconSrc: "/icons/stats/user.svg",
+  },
 ];
 
 /** Figma repeats the same testimonial card 3 times */
@@ -95,6 +107,7 @@ export const testimonials: Testimonial[] = Array.from({ length: 3 }, (_, i) => (
   name: "David Lee",
   role: "Director, AutoSale",
   quote: "We a dealer car company and sell a lot of cars here. Thanks",
+  avatarSrc: "/images/testimonials/david-lee.png",
 }));
 
 export const aboutHeroImage = "/images/about/about-hero.png";

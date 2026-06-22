@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   isLoggedInNavbarPath,
   isNavLinkActive,
@@ -10,6 +10,7 @@ import {
   primaryNavLinks,
 } from "@/config/navigation";
 import { Button } from "@/components/ui/Button";
+import { CategoriesDropdown } from "@/components/ui/CategoriesDropdown";
 import { NavLink } from "@/components/ui/NavLink";
 import { SearchBar } from "@/components/ui/SearchBar";
 
@@ -21,11 +22,22 @@ const secondaryNav = [
   "More",
 ] as const;
 
+const marketplacePaths = ["/", "/listings", "/home-after-connect"] as const;
+
 /** Marketplace navbar — Figma Home / Home after connect (static, route-based variants). */
 export function Navbar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const isSimple = isSimpleNavbarPath(pathname);
   const isLoggedIn = isLoggedInNavbarPath(pathname);
+  const isMarketplace = (marketplacePaths as readonly string[]).includes(
+    pathname,
+  );
+  const categoriesOpen =
+    isMarketplace && searchParams.get("categories") === "open";
+  const categoriesHref = categoriesOpen
+    ? pathname
+    : `${pathname}?categories=open`;
 
   return (
     <header className="w-full bg-white">
@@ -94,26 +106,29 @@ export function Navbar() {
               <div className="h-px w-full bg-gray-light" aria-hidden />
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-[15px]">
-                  <Link
-                    href="/categories"
-                    className="flex items-center gap-[5px] text-base font-medium text-dark"
-                  >
-                    <Image
-                      src="/icons/list-bold.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      aria-hidden
-                    />
-                    Categories
-                    <Image
-                      src="/icons/chevron-bottom.svg"
-                      alt=""
-                      width={10}
-                      height={10}
-                      aria-hidden
-                    />
-                  </Link>
+                  <div className="relative">
+                    <Link
+                      href={isMarketplace ? categoriesHref : "/listings?categories=open"}
+                      className="flex items-center gap-[5px] text-base font-medium text-dark"
+                    >
+                      <Image
+                        src="/icons/list-bold.svg"
+                        alt=""
+                        width={20}
+                        height={20}
+                        aria-hidden
+                      />
+                      Categories
+                      <Image
+                        src="/icons/chevron-bottom.svg"
+                        alt=""
+                        width={10}
+                        height={10}
+                        aria-hidden
+                      />
+                    </Link>
+                    {categoriesOpen && <CategoriesDropdown />}
+                  </div>
 
                   <span className="h-[25px] w-px bg-dark" aria-hidden />
 
@@ -164,10 +179,7 @@ export function Navbar() {
                 </div>
               </div>
 
-              <Link
-                href="/map"
-                className="flex items-center gap-[3px] text-lg text-navy"
-              >
+              <span className="flex items-center gap-[3px] text-lg text-navy">
                 <Image
                   src="/icons/location.svg"
                   alt=""
@@ -185,7 +197,7 @@ export function Navbar() {
                   height={10}
                   aria-hidden
                 />
-              </Link>
+              </span>
             </div>
           </>
         )}

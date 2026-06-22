@@ -3,6 +3,7 @@ import {
   FeaturedBlogArticle,
 } from "@/components/cards/BlogArticleCard";
 import { BlogCategoryBar } from "@/components/sections/BlogCategoryBar";
+import { Pagination } from "@/components/ui/Pagination";
 import { blogArticles, featuredBlogArticle } from "@/data/blog";
 
 /** Blog page content — Figma Blog frame (424:4201) */
@@ -26,6 +27,8 @@ export function BlogContent() {
           <BlogArticleCard key={article.id} {...article} />
         ))}
       </section>
+
+      <Pagination />
     </div>
   );
 }

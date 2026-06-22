@@ -1,9 +1,6 @@
-import { CategoriesContent } from "@/components/sections/CategoriesContent";
+import { redirect } from "next/navigation";
 
+/** Redirect legacy categories page to listings with dropdown open. */
 export default function CategoriesPage() {
-  return (
-    <main className="mx-auto w-full max-w-[1280px] flex-1 px-[25px]">
-      <CategoriesContent />
-    </main>
-  );
+  redirect("/listings?categories=open");
 }

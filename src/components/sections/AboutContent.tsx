@@ -1,12 +1,11 @@
 import Image from "next/image";
-import { TestimonialCard } from "@/components/cards/TestimonialCard";
+import { MarketplaceStats } from "@/components/sections/MarketplaceStats";
+import { MarketplaceTestimonials } from "@/components/sections/MarketplaceTestimonials";
 import {
   aboutHeroImage,
   aboutIntro,
   aboutSections,
-  aboutStats,
   howItWorksText,
-  testimonials,
 } from "@/data/about";
 
 function AboutTextSection({
@@ -85,39 +84,10 @@ export function AboutContent() {
       </section>
 
       {/* Stats */}
-      <section className="flex flex-wrap gap-x-[75px] gap-y-[35px] p-5">
-        {aboutStats.map((stat) => (
-          <div key={stat.id} className="flex items-center gap-2.5">
-            <span
-              className="flex h-[70px] w-[70px] shrink-0 items-center justify-center rounded-full bg-gray-light"
-              aria-hidden
-            />
-            <div>
-              <p className="text-[40px] leading-none font-medium text-dark">
-                {stat.value}
-              </p>
-              <p className="text-[17px] text-dark">{stat.label}</p>
-            </div>
-          </div>
-        ))}
-      </section>
+      <MarketplaceStats />
 
       {/* Testimonials */}
-      <section className="flex w-full flex-col gap-6">
-        <h2 className="text-[30px] font-medium text-navy">
-          Customers Say About Us
-        </h2>
-        <div className="flex flex-wrap gap-4">
-          {testimonials.map((item) => (
-            <TestimonialCard
-              key={item.id}
-              name={item.name}
-              role={item.role}
-              quote={item.quote}
-            />
-          ))}
-        </div>
-      </section>
+      <MarketplaceTestimonials />
     </div>
   );
 }
